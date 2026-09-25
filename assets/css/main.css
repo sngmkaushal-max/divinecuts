@@ -390,3 +390,172 @@ table{width:100%;border-collapse:collapse;}
   .dc-nav a{padding-left:8px;padding-right:8px;font-size:.9rem;}
   .dc-header__cta{margin-left:8px;}
 }
+
+/* ==========================================================================
+   Catalogue plates — self-contained, brand-free imagery.
+   No third-party photography, no external requests, nothing that can break.
+   ========================================================================== */
+.dc-plate{
+  position:absolute; inset:0;
+  display:flex; flex-direction:column; justify-content:space-between;
+  padding:clamp(15px,2.5vw,28px);
+  overflow:hidden; isolation:isolate; color:#fff;
+  --dc-accent:#c8a96e;
+  background:
+    radial-gradient(130% 108% at 12% 2%, rgba(255,255,255,.11), rgba(255,255,255,0) 60%),
+    linear-gradient(158deg,#1e242c 0%,#151b21 46%,#0c1014 100%);
+}
+.dc-plate::before{                       /* soft accent sweep */
+  content:""; position:absolute; right:-24%; top:-36%;
+  width:84%; height:184%; transform:rotate(16deg); z-index:-1;
+  background:linear-gradient(90deg,rgba(200,169,110,.16),rgba(200,169,110,0) 74%);
+  background:linear-gradient(90deg,color-mix(in srgb,var(--dc-accent) 18%,transparent),transparent 74%);
+}
+.dc-plate::after{                        /* footing shade, keeps text legible */
+  content:""; position:absolute; left:0; right:0; bottom:0; height:62%; z-index:-1;
+  background:linear-gradient(180deg,rgba(8,10,13,0),rgba(8,10,13,.68));
+}
+.dc-plate__grain{position:absolute; inset:0; z-index:-1; pointer-events:none;}
+
+/* --- eight abstract material textures, one per range --------------------- */
+.dc-plate--t1 .dc-plate__grain{opacity:.55;background-image:
+  repeating-linear-gradient(114deg,rgba(255,255,255,.055) 0 1px,transparent 1px 10px),
+  repeating-linear-gradient(24deg,rgba(0,0,0,.20) 0 1px,transparent 1px 8px);}
+.dc-plate--t2 .dc-plate__grain{opacity:.5;background-image:
+  repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 1px,transparent 1px 9px);}
+.dc-plate--t3 .dc-plate__grain{opacity:.42;background-image:
+  repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 16px),
+  repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 16px);}
+.dc-plate--t4 .dc-plate__grain{opacity:.5;background-image:
+  repeating-linear-gradient(45deg,rgba(255,255,255,.055) 0 1px,transparent 1px 11px),
+  repeating-linear-gradient(-45deg,rgba(255,255,255,.04) 0 1px,transparent 1px 11px);}
+.dc-plate--t5 .dc-plate__grain{opacity:.55;background-image:
+  radial-gradient(rgba(255,255,255,.10) 1px,transparent 1.4px);background-size:11px 11px;}
+.dc-plate--t6 .dc-plate__grain{opacity:.48;background-image:
+  repeating-linear-gradient(0deg,rgba(255,255,255,.055) 0 1px,transparent 1px 8px);}
+.dc-plate--t7 .dc-plate__grain{opacity:.5;background-image:
+  repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 2px,transparent 2px 14px),
+  repeating-linear-gradient(135deg,rgba(0,0,0,.18) 7px,transparent 8px 14px);}
+.dc-plate--t8 .dc-plate__grain{opacity:.5;background-image:
+  repeating-linear-gradient(70deg,rgba(255,255,255,.05) 0 1px,transparent 1px 13px),
+  radial-gradient(rgba(255,255,255,.06) 1px,transparent 1.4px);background-size:auto,15px 15px;}
+
+/* accent hue rotates with the texture so the grid has rhythm, not noise */
+.dc-plate--t2{--dc-accent:#7d94a6;}
+.dc-plate--t4{--dc-accent:#9a8bb0;}
+.dc-plate--t5{--dc-accent:#7fa08b;}
+.dc-plate--t7{--dc-accent:#b8724a;}
+.dc-plate--t8{--dc-accent:#a61c23;}
+
+/* --- content ------------------------------------------------------------- */
+.dc-plate__top{display:flex; align-items:flex-start; justify-content:space-between; gap:12px;}
+.dc-plate__eyebrow{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--dc-body); font-size:.63rem; font-weight:600;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:rgba(255,255,255,.7); line-height:1.35;
+}
+.dc-plate__eyebrow::before{content:""; flex:0 0 auto; width:20px; height:2px; background:var(--dc-cherry);}
+.dc-plate__mark{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.6rem; letter-spacing:.1em; white-space:nowrap;
+  color:rgba(255,255,255,.5); padding-top:2px;
+}
+.dc-plate__body{display:flex; flex-direction:column; align-items:flex-start;}
+.dc-plate__name{
+  font-family:var(--dc-display); font-weight:700; text-transform:uppercase;
+  line-height:.92; letter-spacing:.005em; color:#fff;
+  font-size:clamp(1.5rem,2.5vw,2.25rem);
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+  text-wrap:balance;
+}
+.dc-plate__rule{width:42px; height:3px; background:var(--dc-accent); margin:.66em 0 .6em; transition:width .35s ease;}
+.dc-plate__spec{
+  font-family:var(--dc-body); font-size:.64rem; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.62);
+  line-height:1.6;
+}
+.dc-tile:hover .dc-plate__rule{width:78px;}
+
+/* --- context variants ---------------------------------------------------- */
+.dc-plate--hero{padding:clamp(24px,3.2vw,44px);}
+.dc-plate--hero .dc-plate__eyebrow{font-size:.68rem;}
+.dc-plate--hero .dc-plate__spec{font-size:.68rem; letter-spacing:.13em; color:rgba(255,255,255,.66); line-height:2;}
+.dc-plate--hero::before{width:96%; right:-30%; background:linear-gradient(90deg,color-mix(in srgb,var(--dc-accent) 22%,transparent),transparent 78%);}
+.dc-plate--wide .dc-plate__name{font-size:clamp(1.05rem,1.45vw,1.4rem); -webkit-line-clamp:3;}
+.dc-plate--wide .dc-plate__rule{width:34px; height:2px; margin:.58em 0 .5em;}
+.dc-plate--tile .dc-plate__name{font-size:clamp(1.35rem,2.1vw,1.95rem);}
+.dc-plate--square .dc-plate__name{font-size:clamp(1.7rem,2.8vw,2.5rem); -webkit-line-clamp:4;}
+
+/* --- parents that need a positioning context / intrinsic ratio ------------ */
+.dc-post__media{position:relative;}
+.dc-split__media{position:relative; aspect-ratio:4/3; overflow:hidden;}
+.dc-product__gallery{position:relative; aspect-ratio:1/1; overflow:hidden; border:1px solid var(--dc-line);}
+.dc-content figure:has(> .dc-plate){position:relative; aspect-ratio:16/9; overflow:hidden; margin-block:1.6em;}
+
+@media (max-width:600px){
+  .dc-plate__name,.dc-plate--tile .dc-plate__name{font-size:1.32rem;}
+  .dc-plate--square .dc-plate__name{font-size:1.6rem;}
+  .dc-plate__spec{font-size:.6rem; letter-spacing:.11em;}
+}
+
+/* hero plate: a numbered index of the ranges, in place of a photograph */
+.dc-plate--hero{justify-content:space-between;}
+.dc-plate__index{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-auto-flow:column; grid-template-rows:repeat(4,auto);
+  gap:.55em clamp(18px,3vw,48px); margin:auto 0; padding:1.2em 0;
+}
+.dc-plate__item{
+  display:flex; align-items:baseline; gap:.7em;
+  font-family:var(--dc-display); font-weight:700; text-transform:uppercase;
+  font-size:clamp(1.05rem,1.55vw,1.5rem); letter-spacing:.01em; color:rgba(255,255,255,.92);
+  border-bottom:1px solid rgba(255,255,255,.09); padding-bottom:.4em; white-space:nowrap;
+}
+.dc-plate__no{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.62rem; font-weight:400; letter-spacing:.1em; color:var(--dc-willow);
+}
+@media (max-width:959px){
+  .dc-hero__media{min-height:clamp(320px,60vw,460px);}
+  .dc-plate__index{gap:.4em 20px;}
+  .dc-plate__item{font-size:1.02rem;}
+}
+.dc-plate--hero::after{height:34%;background:linear-gradient(180deg,rgba(8,10,13,0),rgba(8,10,13,.45));}
+.dc-plate--hero .dc-plate__item{color:#fff;}
+/* the plate carries its own contrast; the photo scrim would only mute it */
+.dc-hero__media:has(> .dc-plate)::after{display:none;}
+
+/* ---- rendered product photography ----------------------------------------- */
+.dc-tile__media img,.dc-post__media img,.dc-split__media img,.dc-product__gallery img,.dc-hero__media img{
+  width:100%;height:100%;object-fit:cover;display:block;background:#e9e9e6;}
+.dc-hero__media img{position:absolute;inset:0;}
+.dc-product__gallery img{aspect-ratio:auto;}
+.dc-photo__cap{
+  position:absolute;left:0;right:0;bottom:0;padding:clamp(12px,2vw,20px) clamp(15px,2.5vw,26px);
+  display:flex;flex-direction:column;gap:.35em;color:#fff;
+  background:linear-gradient(180deg,rgba(10,12,15,0),rgba(10,12,15,.72));
+}
+.dc-photo__name{
+  font-family:var(--dc-display);font-weight:700;text-transform:uppercase;
+  font-size:clamp(1.1rem,1.6vw,1.45rem);line-height:.95;letter-spacing:.005em;
+}
+.dc-tile:hover .dc-tile__media img{transform:scale(1.035);}
+
+/* light plate: sits in the same grid as studio photography */
+.dc-plate--light{
+  color:var(--dc-ink);
+  background:
+    radial-gradient(120% 100% at 14% 4%, rgba(255,255,255,.9), rgba(255,255,255,0) 60%),
+    linear-gradient(160deg,#f1f1ee 0%,#e4e4e0 55%,#cfcfca 100%);
+}
+.dc-plate--light::before{background:linear-gradient(90deg,color-mix(in srgb,var(--dc-accent) 22%,transparent),transparent 74%);}
+.dc-plate--light::after{background:linear-gradient(180deg,rgba(10,12,15,0),rgba(10,12,15,.16));}
+.dc-plate--light .dc-plate__grain{opacity:.35;filter:invert(1);}
+.dc-plate--light .dc-plate__eyebrow{color:rgba(20,24,28,.62);}
+.dc-plate--light .dc-plate__mark{color:rgba(20,24,28,.45);}
+.dc-plate--light .dc-plate__name{color:var(--dc-ink);}
+.dc-plate--light .dc-plate__spec{color:rgba(20,24,28,.6);}
+.dc-tile--feature .dc-tile__media img{object-position:center 30%;}
+.dc-tile__media img[src*="shuttlecock"]{object-position:center 62%;}
+.dc-hero__media img{object-position:center 40%;}
