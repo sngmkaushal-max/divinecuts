@@ -558,7 +558,7 @@ table{width:100%;border-collapse:collapse;}
 .dc-plate--light .dc-plate__spec{color:rgba(20,24,28,.6);}
 .dc-tile--feature .dc-tile__media img{object-position:center 30%;}
 .dc-tile__media img[src*="shuttlecock"]{object-position:center 62%;}
-.dc-hero__media img{object-position:88% 55%;}
+.dc-hero__media img{object-position:50% 50%;}
 
 /* honest label on product pages: imagery is illustrative, goods are made to order */
 .dc-product__gallery{position:relative;}
