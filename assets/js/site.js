@@ -85,7 +85,7 @@
     });
     if (bad) { bad.focus(); bad.reportValidity && bad.reportValidity(); return; }
     var lines = ['New enquiry — Divine Cuts website', ''];
-    form.querySelectorAll('input[name], textarea[name]').forEach(function (f) {
+    form.querySelectorAll('input[name], select[name], textarea[name]').forEach(function (f) {
       if (f.value.trim()) lines.push(f.name + ': ' + f.value.trim());
     });
     var text = lines.join('\n');
