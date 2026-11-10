@@ -76,24 +76,41 @@
   });
   form.addEventListener('submit', function (ev) {
     ev.preventDefault();
-    if (document.getElementById('dc_website').value) return;           // honeypot
+    if (ev.submitter && ev.submitter.getAttribute('data-send')) mode = ev.submitter.getAttribute('data-send');
+    var honeypot = document.getElementById('dc_website');
+    if (honeypot && honeypot.value) return;
     var bad = null;
     form.querySelectorAll('[required]').forEach(function (f) {
-      var ok = f.value.trim() !== '' && (f.type !== 'email' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.value.trim()));
+      var value = (f.value || '').trim();
+      var ok = value !== '' && (f.type !== 'email' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value));
       f.setAttribute('aria-invalid', ok ? 'false' : 'true');
       if (!ok && !bad) bad = f;
     });
     if (bad) { bad.focus(); bad.reportValidity && bad.reportValidity(); return; }
     var lines = ['New enquiry — Divine Cuts website', ''];
     form.querySelectorAll('input[name], select[name], textarea[name]').forEach(function (f) {
-      if (f.value.trim()) lines.push(f.name + ': ' + f.value.trim());
+      if (f.id === 'dc_website') return;
+      if (f.value && f.value.trim()) lines.push(f.name + ': ' + f.value.trim());
     });
+    var query = new URLSearchParams(window.location.search);
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(function (key) {
+      var value = query.get(key);
+      if (value) lines.push(key + ': ' + value.slice(0, 200));
+    });
+    lines.push('Enquiry page: ' + window.location.href);
+    if (document.referrer) lines.push('Referrer: ' + document.referrer);
+    lines.push('Submitted at: ' + new Date().toISOString());
     var text = lines.join('\n');
-    var product = document.getElementById('dc-product-required').value.trim();
+    var productField = document.getElementById('dc-product-required');
+    var product = productField ? productField.value.trim() : 'Sports goods';
     var url = mode === 'email'
       ? 'mailto:' + TO + '?subject=' + encodeURIComponent('Quotation request: ' + product) + '&body=' + encodeURIComponent(text)
       : 'https://wa.me/' + WA + '?text=' + encodeURIComponent(text);
-    document.getElementById('dc-sent').hidden = false;
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'generate_lead', lead_method: mode, lead_product: product });
+    if (typeof window.gtag === 'function') window.gtag('event', 'generate_lead', { method: mode });
+    var notice = document.getElementById('dc-sent');
+    if (notice) notice.hidden = false;
     if (mode === 'email') { window.location.href = url; } else { window.open(url, '_blank', 'noopener'); }
   });
 })();
