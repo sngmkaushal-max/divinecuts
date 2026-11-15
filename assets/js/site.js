@@ -82,7 +82,7 @@
     var bad = null;
     form.querySelectorAll('[required]').forEach(function (f) {
       var value = (f.value || '').trim();
-      var ok = value !== '' && (f.type !== 'email' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value));
+      var ok = value !== '' && (f.type !== 'email' || /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value));
       f.setAttribute('aria-invalid', ok ? 'false' : 'true');
       if (!ok && !bad) bad = f;
     });
@@ -100,7 +100,7 @@
     lines.push('Enquiry page: ' + window.location.href);
     if (document.referrer) lines.push('Referrer: ' + document.referrer);
     lines.push('Submitted at: ' + new Date().toISOString());
-    var text = lines.join('\n');
+    var text = lines.join('\\n');
     var productField = document.getElementById('dc-product-required');
     var product = productField ? productField.value.trim() : 'Sports goods';
     var url = mode === 'email'
@@ -111,7 +111,8 @@
     if (typeof window.gtag === 'function') window.gtag('event', 'generate_lead', { method: mode });
     var notice = document.getElementById('dc-sent');
     if (notice) notice.hidden = false;
-    if (mode === 'email') { window.location.href = url; } else { window.open(url, '_blank', 'noopener'); }
+    if (mode === 'email') { window.location.href = url; }
+    else { window.open(url, '_blank', 'noopener'); }
   });
 })();
 document.querySelectorAll('[data-year]').forEach(function (n) { n.textContent = new Date().getFullYear(); });
